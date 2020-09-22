@@ -1,0 +1,44 @@
+@model IEnumerable<ApplicationUser>
+
+@{
+    ViewData["Title"] = "Roles";
+}
+
+<h2>Index</h2>
+
+<p>
+    <a asp-area="Administrators" asp-controller="Users" asp-action="Create">Create New</a>
+</p>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.UserName)
+            </th>
+            <th>
+                Roles
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.UserName)
+            </td>
+            <td>
+                @foreach(var role in item.UserRoles)
+                {
+                    @role.Role.Name <span>&nbsp;</span>
+                }
+            </td>
+            <td>
+                @* <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a> *@
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
