@@ -1,0 +1,77 @@
+@model FeedViewModel
+
+@{
+    ViewData["Title"] = "Feed";
+}
+
+<div class="row mt-3 px-3">
+    
+        @foreach (var item in Model.Posts)
+        {
+            <div class="col-6">
+            <div class="card link-template-tabcard" style="margin: 20px auto;">
+                <div class="card-img-top">
+                    <img style="height: 180px; width: 100%; object-fit: cover; background-position: center;" class="img-fluid" src="@item.Image" alt="Multipurpose">
+                </div>
+                <div class="card-header d-flex justify-content-between align-items-center" style="padding: 9px 16px;">
+                    <h3 class="package-title" style="max-width: 60%;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;font-size: 14px;margin-top: 10px">
+                        @item.Author.Identity.FullName
+                    </h3>
+                    <ul class="nav nav-tabs card-header-tabs">
+                        <li class="nav-item">
+                            <a class="nav-link active" data-toggle="tab" data-target="#desc" href="#desc">Post</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-toggle="tab" data-target="#info" href="#info">Info</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="card-body p-0">
+                    <div class="tab-content">
+                        <div class="tab-pane p-4 active" id="desc" role="tabpanel">
+                            <div id="tab-content">
+                                <h4>@item.Headline</h4>
+                                <div id="desc">
+                                    @item.Body
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane" id="info" role="tabpanel">
+                            <ul class="list-group list-group-flush ml-0 mb-2">
+                                <li class="list-group-item d-flex justify-content-between align-items-center [hide_empty:version]">
+                                    <i class="fas fa-heart"></i> Likes
+                                    <span class="badge">17</span>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between align-items-center [hide_empty:download_count]">
+                                    <i class="fas fa-eye"></i> Views
+                                    <span class="badge">37</span>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between align-items-center [hide_empty:file_size]">
+                                    <i class="fas fa-comments"></i> Comments
+                                    <span class="badge">3</span>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between align-items-center [hide_empty:file_count]">
+                                    <i class="fas fa-share-alt"></i> Shared
+                                    <span class="badge">1</span>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between align-items-center [hide_empty:create_date]">
+                                    Create Date
+                                    <span class="badge">@item.Created</span>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between align-items-center [hide_empty:update_date]">
+                                    Last Updated
+                                    <span class="badge">@item.Updated</span>
+                                </li>
+
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer bg-transparent d-flex justify-content-between align-items-center">
+                    <b></b>
+                    <a href="https://www.wpdownloadmanager.com/" target=_blank class="wpdm-download-link wpdm-download-locked btn btn-info " data-package="30">Read</a>
+                </div>
+            </div>
+        </div>
+        }  
+</div>

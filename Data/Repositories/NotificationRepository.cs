@@ -23,11 +23,11 @@ namespace Channels.Data.Repositories
         {
             _context.Notifications.Add(notification);
             _context.SaveChanges();
-            var channel = _context.Channels.Include(c => c.Members).ThenInclude(m => m.Member).ThenInclude(m => m.Identity).FirstOrDefault(c => c.Id == channelId);
-            foreach (var member in channel.Members)
+            var channel = _context.Channels.Include(c => c.Subscribers).ThenInclude(m => m.Subscriber).ThenInclude(m => m.Identity).FirstOrDefault(c => c.Id == channelId);
+            foreach (var member in channel.Subscribers)
             {
                 var userNotification = new UserNotification();
-                userNotification.MemberId = member.MemberId;
+                userNotification.MemberId = member.SubscriberId;
                 userNotification.NotificationId = notification.Id;
 
                 _context.UserNotifications.Add(userNotification);

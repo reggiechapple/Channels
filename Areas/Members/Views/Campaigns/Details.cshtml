@@ -1,0 +1,96 @@
+@model Channels.Data.Entities.Campaign
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>Campaign</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.ShortDesc)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.ShortDesc)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.LongDesc)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.LongDesc)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.FundsNeeded)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.FundsNeeded)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.FundsRaised)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.FundsRaised)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.VolunteersNeeded)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.VolunteersNeeded)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.IsOpen)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.IsOpen)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.IsSuspended)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.IsSuspended)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.ClosingStatement)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.ClosingStatement)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Initiator)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Initiator.Id)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Cause)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Cause.Id)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Created)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Created)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Updated)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Updated)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

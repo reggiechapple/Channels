@@ -16,6 +16,113 @@ namespace Channels.Migrations
             modelBuilder
                 .HasAnnotation("ProductVersion", "3.1.8");
 
+            modelBuilder.Entity("Channels.Data.Entities.Campaign", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<long>("CauseId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("ClosingStatement")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("Created")
+                        .HasColumnType("TEXT");
+
+                    b.Property<decimal>("FundsNeeded")
+                        .HasColumnType("TEXT");
+
+                    b.Property<decimal>("FundsRaised")
+                        .HasColumnType("TEXT");
+
+                    b.Property<long>("InitiatorId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<bool>("IsOpen")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<bool>("IsSuspended")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("LongDesc")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("ShortDesc")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("Updated")
+                        .HasColumnType("TEXT");
+
+                    b.Property<uint>("VolunteersNeeded")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CauseId");
+
+                    b.HasIndex("InitiatorId");
+
+                    b.ToTable("Campaigns");
+                });
+
+            modelBuilder.Entity("Channels.Data.Entities.CampaignVolunteer", b =>
+                {
+                    b.Property<long>("VolunteerId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<long>("CampaignId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("VolunteerId", "CampaignId");
+
+                    b.HasIndex("CampaignId");
+
+                    b.ToTable("CampaignVolunteers");
+                });
+
+            modelBuilder.Entity("Channels.Data.Entities.Cause", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("Category")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime>("Created")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("Updated")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Causes");
+                });
+
+            modelBuilder.Entity("Channels.Data.Entities.CauseSupporter", b =>
+                {
+                    b.Property<long>("SupporterId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<long>("CauseId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("SupporterId", "CauseId");
+
+                    b.HasIndex("CauseId");
+
+                    b.ToTable("CauseSupporters");
+                });
+
             modelBuilder.Entity("Channels.Data.Entities.Channel", b =>
                 {
                     b.Property<long>("Id")
@@ -43,21 +150,6 @@ namespace Channels.Migrations
                     b.HasIndex("OwnerId");
 
                     b.ToTable("Channels");
-                });
-
-            modelBuilder.Entity("Channels.Data.Entities.ChannelMember", b =>
-                {
-                    b.Property<long>("MemberId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<long>("ChannelId")
-                        .HasColumnType("INTEGER");
-
-                    b.HasKey("MemberId", "ChannelId");
-
-                    b.HasIndex("ChannelId");
-
-                    b.ToTable("ChannelMembers");
                 });
 
             modelBuilder.Entity("Channels.Data.Entities.ChannelMessage", b =>
@@ -90,6 +182,101 @@ namespace Channels.Migrations
                     b.ToTable("ChannelMessages");
                 });
 
+            modelBuilder.Entity("Channels.Data.Entities.ChannelSubscriber", b =>
+                {
+                    b.Property<long>("SubscriberId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<long>("ChannelId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("SubscriberId", "ChannelId");
+
+                    b.HasIndex("ChannelId");
+
+                    b.ToTable("ChannelSubscribers");
+                });
+
+            modelBuilder.Entity("Channels.Data.Entities.Comment", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<long>("AuthorId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Body")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("Created")
+                        .HasColumnType("TEXT");
+
+                    b.Property<long?>("ParentId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<long>("PostId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime>("Updated")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AuthorId");
+
+                    b.HasIndex("ParentId");
+
+                    b.HasIndex("PostId");
+
+                    b.ToTable("Comments");
+                });
+
+            modelBuilder.Entity("Channels.Data.Entities.Donation", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<decimal>("Amount")
+                        .HasColumnType("TEXT");
+
+                    b.Property<long>("CampaignId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime>("Created")
+                        .HasColumnType("TEXT");
+
+                    b.Property<long>("DonorId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime>("Updated")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CampaignId");
+
+                    b.HasIndex("DonorId");
+
+                    b.ToTable("Donations");
+                });
+
+            modelBuilder.Entity("Channels.Data.Entities.Follow", b =>
+                {
+                    b.Property<long>("FollowedId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<long>("FollowerId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("FollowedId", "FollowerId");
+
+                    b.HasIndex("FollowerId");
+
+                    b.ToTable("Follows");
+                });
+
             modelBuilder.Entity("Channels.Data.Entities.Notification", b =>
                 {
                     b.Property<long>("Id")
@@ -110,6 +297,37 @@ namespace Channels.Migrations
                     b.ToTable("Notifications");
                 });
 
+            modelBuilder.Entity("Channels.Data.Entities.Post", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<long>("AuthorId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Body")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("Created")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Headline")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Image")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("Updated")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AuthorId");
+
+                    b.ToTable("Posts");
+                });
+
             modelBuilder.Entity("Channels.Data.Entities.UserNotification", b =>
                 {
                     b.Property<long>("MemberId")
@@ -126,6 +344,36 @@ namespace Channels.Migrations
                     b.HasIndex("NotificationId");
 
                     b.ToTable("UserNotifications");
+                });
+
+            modelBuilder.Entity("Channels.Data.Entities.VolunteerRequest", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<bool>("Accepted")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<long>("CampaignId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime>("Created")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("Updated")
+                        .HasColumnType("TEXT");
+
+                    b.Property<long>("VolunteerId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CampaignId");
+
+                    b.HasIndex("VolunteerId");
+
+                    b.ToTable("VolunteerRequests");
                 });
 
             modelBuilder.Entity("Channels.Data.Identity.ApplicationRole", b =>
@@ -349,26 +597,56 @@ namespace Channels.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
+            modelBuilder.Entity("Channels.Data.Entities.Campaign", b =>
+                {
+                    b.HasOne("Channels.Data.Entities.Cause", "Cause")
+                        .WithMany("Campaigns")
+                        .HasForeignKey("CauseId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Channels.Data.Identity.Member", "Initiator")
+                        .WithMany("Campaigns")
+                        .HasForeignKey("InitiatorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Channels.Data.Entities.CampaignVolunteer", b =>
+                {
+                    b.HasOne("Channels.Data.Entities.Campaign", "Campaign")
+                        .WithMany("Volunteers")
+                        .HasForeignKey("CampaignId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Channels.Data.Identity.Member", "Volunteer")
+                        .WithMany("Work")
+                        .HasForeignKey("VolunteerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Channels.Data.Entities.CauseSupporter", b =>
+                {
+                    b.HasOne("Channels.Data.Entities.Cause", "Cause")
+                        .WithMany("Supporters")
+                        .HasForeignKey("CauseId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Channels.Data.Identity.Member", "Supporter")
+                        .WithMany("Causes")
+                        .HasForeignKey("SupporterId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("Channels.Data.Entities.Channel", b =>
                 {
                     b.HasOne("Channels.Data.Identity.Member", "Owner")
                         .WithMany("Channels")
                         .HasForeignKey("OwnerId");
-                });
-
-            modelBuilder.Entity("Channels.Data.Entities.ChannelMember", b =>
-                {
-                    b.HasOne("Channels.Data.Entities.Channel", "Channel")
-                        .WithMany("Members")
-                        .HasForeignKey("ChannelId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Channels.Data.Identity.Member", "Member")
-                        .WithMany("ChannelSessions")
-                        .HasForeignKey("MemberId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("Channels.Data.Entities.ChannelMessage", b =>
@@ -386,6 +664,79 @@ namespace Channels.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("Channels.Data.Entities.ChannelSubscriber", b =>
+                {
+                    b.HasOne("Channels.Data.Entities.Channel", "Channel")
+                        .WithMany("Subscribers")
+                        .HasForeignKey("ChannelId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Channels.Data.Identity.Member", "Subscriber")
+                        .WithMany("Subscriptions")
+                        .HasForeignKey("SubscriberId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Channels.Data.Entities.Comment", b =>
+                {
+                    b.HasOne("Channels.Data.Identity.Member", "Author")
+                        .WithMany("Comments")
+                        .HasForeignKey("AuthorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Channels.Data.Entities.Comment", "Parent")
+                        .WithMany("Replies")
+                        .HasForeignKey("ParentId");
+
+                    b.HasOne("Channels.Data.Entities.Post", "Post")
+                        .WithMany("Comments")
+                        .HasForeignKey("PostId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Channels.Data.Entities.Donation", b =>
+                {
+                    b.HasOne("Channels.Data.Entities.Campaign", "Campaign")
+                        .WithMany("Donations")
+                        .HasForeignKey("CampaignId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Channels.Data.Identity.Member", "Donor")
+                        .WithMany("Donations")
+                        .HasForeignKey("DonorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Channels.Data.Entities.Follow", b =>
+                {
+                    b.HasOne("Channels.Data.Identity.Member", "Followed")
+                        .WithMany("Follows")
+                        .HasForeignKey("FollowedId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Channels.Data.Identity.Member", "Follower")
+                        .WithMany("Following")
+                        .HasForeignKey("FollowerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Channels.Data.Entities.Post", b =>
+                {
+                    b.HasOne("Channels.Data.Identity.Member", "Author")
+                        .WithMany("Posts")
+                        .HasForeignKey("AuthorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("Channels.Data.Entities.UserNotification", b =>
                 {
                     b.HasOne("Channels.Data.Identity.Member", "Member")
@@ -397,6 +748,21 @@ namespace Channels.Migrations
                     b.HasOne("Channels.Data.Entities.Notification", "Notification")
                         .WithMany("Users")
                         .HasForeignKey("NotificationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Channels.Data.Entities.VolunteerRequest", b =>
+                {
+                    b.HasOne("Channels.Data.Entities.Campaign", "Campaign")
+                        .WithMany("VolunteerRequests")
+                        .HasForeignKey("CampaignId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Channels.Data.Identity.Member", "Volunteer")
+                        .WithMany("VolunteerRequests")
+                        .HasForeignKey("VolunteerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

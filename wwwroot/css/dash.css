@@ -1,0 +1,72 @@
+@font-face {
+  font-family: Raleway;
+  src: url(../fonts/raleway/static/Raleway-SemiBold.ttf);
+}
+
+@font-face {
+  font-family: Roboto;
+  src: url(../fonts/roboto/Roboto-Regular.ttf);
+}
+
+body {
+  padding-top:54px;
+  height:100%;
+  width:100%;
+  font-family: Roboto;
+  letter-spacing: 0.08rem;
+  overflow: hidden;
+}
+#content {
+  margin-top: 0px;
+  overflow-y: scroll;
+  height: calc(100vh - 54px);
+}
+#rightSidebar, #leftSidebar {
+  margin-top: 0px;
+  overflow-y: scroll;
+  height: calc(100vh - 54px);
+}
+
+#page-wrapper {
+  height: calc(100vh - 54px);
+}
+
+.nav-border {
+  /* color: rgb(28, 104, 136); */
+  box-shadow: 0 1px 0.5px 0.5px rgba(28, 104, 136, 0.3);
+}
+
+#brand-text {
+  letter-spacing: .4rem;
+  font-family: Raleway;
+  color: #EA777A;
+}
+
+#followers {
+  border-top: 1px solid #E0EDE3;
+  border-bottom: 1px solid #E0EDE3;
+  color: #EA777A;
+}
+
+#dash-menu li {
+  border-bottom: 1px solid #E0EDE3;
+  padding: 10px 0;
+}
+
+#dash-menu li a, #secondary-menu  li a {
+  color:  rgb(28, 104, 136);
+}
+
+#dash-menu li a.active {
+  color: #EA777A;
+}
+
+.scrollable {
+  max-height: 100px;
+  overflow-y: scroll;
+}
+
+#secondary-menu  li span {
+  background-color:  #E0EDE3;
+}
+

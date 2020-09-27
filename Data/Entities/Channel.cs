@@ -15,7 +15,7 @@ namespace Channels.Data.Entities
         public long? OwnerId { get; set; }
         public Member Owner { get; set; }
 
-        public ICollection<ChannelMember> Members { get; set; }
+        public ICollection<ChannelSubscriber> Subscribers { get; set; }
         public ICollection<ChannelMessage> Messages { get; set; }
 
     }

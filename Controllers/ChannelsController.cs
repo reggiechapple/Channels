@@ -49,8 +49,8 @@ namespace Channels.Controllers
             var channel = await _context.Channels
                 .Include(c => c.Owner)
                     .ThenInclude(o => o.Identity)
-                .Include(c => c.Members)
-                    .ThenInclude(m => m.Member)
+                .Include(c => c.Subscribers)
+                    .ThenInclude(m => m.Subscriber)
                         .ThenInclude(m => m.Identity)
                 .FirstOrDefaultAsync(m => m.Id == id);
             

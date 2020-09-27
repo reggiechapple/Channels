@@ -1,0 +1,107 @@
+@model IEnumerable<Channels.Data.Entities.Campaign>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ShortDesc)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.LongDesc)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FundsNeeded)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FundsRaised)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.VolunteersNeeded)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IsOpen)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IsSuspended)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ClosingStatement)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Initiator)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Cause)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Created)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Updated)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ShortDesc)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LongDesc)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FundsNeeded)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FundsRaised)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.VolunteersNeeded)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IsOpen)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IsSuspended)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ClosingStatement)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Initiator.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Cause.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Created)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Updated)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
