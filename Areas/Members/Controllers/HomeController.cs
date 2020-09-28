@@ -119,5 +119,89 @@ namespace Channels.Areas.Members.Controllers
             
             return View(model);
         }
+
+        [HttpGet]
+        public async Task<IActionResult> Events(long? id)
+        {
+            if (id == null)
+            {
+               return NotFound();
+            }
+
+            var member = await _context.Members
+                .Include(m => m.Identity)
+                .FirstOrDefaultAsync(m => m.Id == id);
+
+            if (member == null)
+            {
+               return NotFound();
+            }
+
+            var events = await _context.Meetings
+                .Where(p => p.CoordinatorId == member.Id)
+                .OrderBy(p => p.Created)
+                .ToListAsync();
+
+            var attendingEvents = _context.Meetings
+                .Where(e => e.MeetingAttendees.Any(u => u.AttendeeId == member.Id))
+                .Include(e => e.Coordinator)
+                    .ThenInclude(a => a.Identity)
+                .OrderBy(p => p.Created)
+                .ToList();
+
+            var mergedList = events.Union(attendingEvents).OrderBy(p => p.Created).ToList();
+
+            var model = new EventViewModel
+            {
+                Member = member,
+                Meetings = mergedList
+            };
+
+            ViewData["CurrentMemberId"] = member.Id;
+
+            return View(model);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Circles(long? id)
+        {
+            if (id == null)
+            {
+               return NotFound();
+            }
+
+            var member = await _context.Members
+                .Include(m => m.Identity)
+                .FirstOrDefaultAsync(m => m.Id == id);
+
+            if (member == null)
+            {
+               return NotFound();
+            }
+
+            var circles = await _context.Channels
+                .Where(p => p.OwnerId == member.Id)
+                .OrderBy(p => p.Created)
+                .ToListAsync();
+
+            var joinedCircles = _context.Channels
+                .Where(c => c.Subscribers.Any(u => u.SubscriberId == member.Id))
+                .Include(e => e.Owner)
+                    .ThenInclude(a => a.Identity)
+                .OrderBy(p => p.Created)
+                .ToList();
+
+            var mergedList = circles.Union(joinedCircles).OrderBy(p => p.Created).ToList();
+
+            var model = new CircleViewModel
+            {
+                Member = member,
+                Channels = mergedList
+            };
+
+            ViewData["CurrentMemberId"] = member.Id;
+
+            return View(model);
+        }
     }
 }

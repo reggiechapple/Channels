@@ -10,6 +10,7 @@ using Channels.Data.Entities;
 
 namespace Channels.Controllers
 {
+    [Route("[controller]/[action]")]
     public class EventsController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -27,6 +28,7 @@ namespace Channels.Controllers
         }
 
         // GET: Events/Details/5
+        [HttpGet("{id}")]
         public async Task<IActionResult> Details(long? id)
         {
             if (id == null)
@@ -49,7 +51,6 @@ namespace Channels.Controllers
         // GET: Events/Create
         public IActionResult Create()
         {
-            ViewData["CampaignId"] = new SelectList(_context.Campaigns, "Id", "Id");
             ViewData["CoordinatorId"] = new SelectList(_context.Members, "Id", "Id");
             return View();
         }
@@ -59,7 +60,7 @@ namespace Channels.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Name,ShortDesc,LongDesc,StartTime,EndTime,IsPrivate,CoordinatorId,CampaignId,Id,Created,Updated")] Meeting meeting)
+        public async Task<IActionResult> Create([Bind("Name,ShortDesc,LongDesc,StartTime,EndTime,IsPrivate,CoordinatorId")] Meeting meeting)
         {
             if (ModelState.IsValid)
             {
@@ -67,12 +68,12 @@ namespace Channels.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CampaignId"] = new SelectList(_context.Campaigns, "Id", "Id", meeting.CampaignId);
             ViewData["CoordinatorId"] = new SelectList(_context.Members, "Id", "Id", meeting.CoordinatorId);
             return View(meeting);
         }
 
         // GET: Events/Edit/5
+        [HttpGet("{id}")]
         public async Task<IActionResult> Edit(long? id)
         {
             if (id == null)
@@ -85,7 +86,6 @@ namespace Channels.Controllers
             {
                 return NotFound();
             }
-            ViewData["CampaignId"] = new SelectList(_context.Campaigns, "Id", "Id", meeting.CampaignId);
             ViewData["CoordinatorId"] = new SelectList(_context.Members, "Id", "Id", meeting.CoordinatorId);
             return View(meeting);
         }
@@ -93,7 +93,7 @@ namespace Channels.Controllers
         // POST: Events/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
+        [HttpPost("{id}")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(long id, [Bind("Name,ShortDesc,LongDesc,StartTime,EndTime,IsPrivate,CoordinatorId,CampaignId,Id,Created,Updated")] Meeting meeting)
         {
@@ -122,12 +122,12 @@ namespace Channels.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CampaignId"] = new SelectList(_context.Campaigns, "Id", "Id", meeting.CampaignId);
             ViewData["CoordinatorId"] = new SelectList(_context.Members, "Id", "Id", meeting.CoordinatorId);
             return View(meeting);
         }
 
         // GET: Events/Delete/5
+        [HttpGet("{id}")]
         public async Task<IActionResult> Delete(long? id)
         {
             if (id == null)
@@ -148,7 +148,7 @@ namespace Channels.Controllers
         }
 
         // POST: Events/Delete/5
-        [HttpPost, ActionName("Delete")]
+        [HttpPost("{id}"), ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(long id)
         {
