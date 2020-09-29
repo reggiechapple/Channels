@@ -1,5 +1,6 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
+using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace Channels.Migrations
 {
@@ -52,7 +53,7 @@ namespace Channels.Migrations
                 columns: table => new
                 {
                     Id = table.Column<long>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Created = table.Column<DateTime>(nullable: false),
                     Updated = table.Column<DateTime>(nullable: false),
                     Name = table.Column<string>(nullable: true),
@@ -68,7 +69,7 @@ namespace Channels.Migrations
                 columns: table => new
                 {
                     Id = table.Column<long>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Created = table.Column<DateTime>(nullable: false),
                     Updated = table.Column<DateTime>(nullable: false),
                     Text = table.Column<string>(nullable: true)
@@ -83,7 +84,7 @@ namespace Channels.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     RoleId = table.Column<string>(nullable: false),
                     ClaimType = table.Column<string>(nullable: true),
                     ClaimValue = table.Column<string>(nullable: true)
@@ -104,7 +105,7 @@ namespace Channels.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     UserId = table.Column<string>(nullable: false),
                     ClaimType = table.Column<string>(nullable: true),
                     ClaimValue = table.Column<string>(nullable: true)
@@ -189,7 +190,7 @@ namespace Channels.Migrations
                 columns: table => new
                 {
                     Id = table.Column<long>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Created = table.Column<DateTime>(nullable: false),
                     Updated = table.Column<DateTime>(nullable: false),
                     IdentityId = table.Column<string>(nullable: true)
@@ -210,7 +211,7 @@ namespace Channels.Migrations
                 columns: table => new
                 {
                     Id = table.Column<long>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Created = table.Column<DateTime>(nullable: false),
                     Updated = table.Column<DateTime>(nullable: false),
                     Name = table.Column<string>(nullable: true),
@@ -218,7 +219,7 @@ namespace Channels.Migrations
                     LongDesc = table.Column<string>(nullable: true),
                     FundsNeeded = table.Column<decimal>(nullable: false),
                     FundsRaised = table.Column<decimal>(nullable: false),
-                    VolunteersNeeded = table.Column<uint>(nullable: false),
+                    VolunteersNeeded = table.Column<long>(nullable: false),
                     IsOpen = table.Column<bool>(nullable: false),
                     IsSuspended = table.Column<bool>(nullable: false),
                     ClosingStatement = table.Column<string>(nullable: true),
@@ -271,10 +272,12 @@ namespace Channels.Migrations
                 columns: table => new
                 {
                     Id = table.Column<long>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Created = table.Column<DateTime>(nullable: false),
                     Updated = table.Column<DateTime>(nullable: false),
                     Name = table.Column<string>(nullable: true),
+                    About = table.Column<string>(nullable: true),
+                    IsPrivate = table.Column<bool>(nullable: false),
                     UUID = table.Column<string>(nullable: false),
                     OwnerId = table.Column<long>(nullable: true)
                 },
@@ -287,6 +290,54 @@ namespace Channels.Migrations
                         principalTable: "Members",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Follows",
+                columns: table => new
+                {
+                    FollowerId = table.Column<long>(nullable: false),
+                    FollowedId = table.Column<long>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Follows", x => new { x.FollowedId, x.FollowerId });
+                    table.ForeignKey(
+                        name: "FK_Follows_Members_FollowedId",
+                        column: x => x.FollowedId,
+                        principalTable: "Members",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Follows_Members_FollowerId",
+                        column: x => x.FollowerId,
+                        principalTable: "Members",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Posts",
+                columns: table => new
+                {
+                    Id = table.Column<long>(nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Created = table.Column<DateTime>(nullable: false),
+                    Updated = table.Column<DateTime>(nullable: false),
+                    Headline = table.Column<string>(nullable: true),
+                    Image = table.Column<string>(nullable: true),
+                    Body = table.Column<string>(nullable: true),
+                    AuthorId = table.Column<long>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Posts", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Posts_Members_AuthorId",
+                        column: x => x.AuthorId,
+                        principalTable: "Members",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -343,7 +394,7 @@ namespace Channels.Migrations
                 columns: table => new
                 {
                     Id = table.Column<long>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Created = table.Column<DateTime>(nullable: false),
                     Updated = table.Column<DateTime>(nullable: false),
                     Amount = table.Column<decimal>(nullable: false),
@@ -368,11 +419,45 @@ namespace Channels.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Meetings",
+                columns: table => new
+                {
+                    Id = table.Column<long>(nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Created = table.Column<DateTime>(nullable: false),
+                    Updated = table.Column<DateTime>(nullable: false),
+                    Name = table.Column<string>(nullable: true),
+                    ShortDesc = table.Column<string>(nullable: true),
+                    LongDesc = table.Column<string>(nullable: true),
+                    StartTime = table.Column<DateTime>(nullable: false),
+                    EndTime = table.Column<DateTime>(nullable: false),
+                    IsPrivate = table.Column<bool>(nullable: false),
+                    CoordinatorId = table.Column<long>(nullable: false),
+                    CampaignId = table.Column<long>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Meetings", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Meetings_Campaigns_CampaignId",
+                        column: x => x.CampaignId,
+                        principalTable: "Campaigns",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Meetings_Members_CoordinatorId",
+                        column: x => x.CoordinatorId,
+                        principalTable: "Members",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "VolunteerRequests",
                 columns: table => new
                 {
                     Id = table.Column<long>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Created = table.Column<DateTime>(nullable: false),
                     Updated = table.Column<DateTime>(nullable: false),
                     Accepted = table.Column<bool>(nullable: false),
@@ -401,7 +486,7 @@ namespace Channels.Migrations
                 columns: table => new
                 {
                     Id = table.Column<long>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Created = table.Column<DateTime>(nullable: false),
                     Updated = table.Column<DateTime>(nullable: false),
                     Content = table.Column<string>(nullable: true),
@@ -445,6 +530,66 @@ namespace Channels.Migrations
                         name: "FK_ChannelSubscribers_Members_SubscriberId",
                         column: x => x.SubscriberId,
                         principalTable: "Members",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Comments",
+                columns: table => new
+                {
+                    Id = table.Column<long>(nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Created = table.Column<DateTime>(nullable: false),
+                    Updated = table.Column<DateTime>(nullable: false),
+                    Body = table.Column<string>(nullable: true),
+                    ParentId = table.Column<long>(nullable: true),
+                    AuthorId = table.Column<long>(nullable: false),
+                    PostId = table.Column<long>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Comments", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Comments_Members_AuthorId",
+                        column: x => x.AuthorId,
+                        principalTable: "Members",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Comments_Comments_ParentId",
+                        column: x => x.ParentId,
+                        principalTable: "Comments",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Comments_Posts_PostId",
+                        column: x => x.PostId,
+                        principalTable: "Posts",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "MeetingAttendees",
+                columns: table => new
+                {
+                    MeetingId = table.Column<long>(nullable: false),
+                    AttendeeId = table.Column<long>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_MeetingAttendees", x => new { x.AttendeeId, x.MeetingId });
+                    table.ForeignKey(
+                        name: "FK_MeetingAttendees_Members_AttendeeId",
+                        column: x => x.AttendeeId,
+                        principalTable: "Members",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_MeetingAttendees_Meetings_MeetingId",
+                        column: x => x.MeetingId,
+                        principalTable: "Meetings",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -527,6 +672,21 @@ namespace Channels.Migrations
                 column: "ChannelId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Comments_AuthorId",
+                table: "Comments",
+                column: "AuthorId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Comments_ParentId",
+                table: "Comments",
+                column: "ParentId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Comments_PostId",
+                table: "Comments",
+                column: "PostId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Donations_CampaignId",
                 table: "Donations",
                 column: "CampaignId");
@@ -537,9 +697,34 @@ namespace Channels.Migrations
                 column: "DonorId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Follows_FollowerId",
+                table: "Follows",
+                column: "FollowerId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_MeetingAttendees_MeetingId",
+                table: "MeetingAttendees",
+                column: "MeetingId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Meetings_CampaignId",
+                table: "Meetings",
+                column: "CampaignId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Meetings_CoordinatorId",
+                table: "Meetings",
+                column: "CoordinatorId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Members_IdentityId",
                 table: "Members",
                 column: "IdentityId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Posts_AuthorId",
+                table: "Posts",
+                column: "AuthorId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_UserNotifications_NotificationId",
@@ -587,7 +772,16 @@ namespace Channels.Migrations
                 name: "ChannelSubscribers");
 
             migrationBuilder.DropTable(
+                name: "Comments");
+
+            migrationBuilder.DropTable(
                 name: "Donations");
+
+            migrationBuilder.DropTable(
+                name: "Follows");
+
+            migrationBuilder.DropTable(
+                name: "MeetingAttendees");
 
             migrationBuilder.DropTable(
                 name: "UserNotifications");
@@ -600,6 +794,12 @@ namespace Channels.Migrations
 
             migrationBuilder.DropTable(
                 name: "Channels");
+
+            migrationBuilder.DropTable(
+                name: "Posts");
+
+            migrationBuilder.DropTable(
+                name: "Meetings");
 
             migrationBuilder.DropTable(
                 name: "Notifications");

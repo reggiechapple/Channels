@@ -10,6 +10,7 @@ using Channels.Data.Entities;
 
 namespace Channels.Controllers
 {
+    [Route("[controller]/[action]")]
     public class CampaignsController : Controller
     {
         private readonly ApplicationDbContext _context;

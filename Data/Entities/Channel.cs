@@ -10,6 +10,7 @@ namespace Channels.Data.Entities
         public string Name { get; set; }
         public string About { get; set; }
         public bool IsPrivate { get; set; }
+        
         [Required]
         [Editable(false)]
         public string UUID { get; set; } = Guid.NewGuid().ToString();
